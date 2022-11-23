@@ -1,0 +1,78 @@
+package pakage1;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.Scanner;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class Metodos {
+
+    public static void main(String[] args) {
+        inicio newframe = new inicio();
+        newframe.setVisible(true);
+    }
+
+    public void buscar(JTextField txt_Buscar_2,
+            JTextPane txt_print,
+            JTextPane txt_print2,
+            JTextPane txt_print3,
+            JTextPane txt_print4,
+            JTextPane txt_print5,
+            JTextPane txt_print6,
+            JTextPane txt_print7,
+            JTextPane txt_print8
+    ) {
+        try {
+            
+
+            // solicitar peticion
+            
+            URL url = new URL("https://periodic-table-api.herokuapp.com/atomicName/" + txt_Buscar_2.getText());
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.connect();
+
+            //la peticion fue correcta
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) {
+                throw new RuntimeException("Ocurio un error: " + responseCode);
+            } else {
+
+                //abrir un escaner que lea el flujo de datos
+                
+                String informacionString = "";
+                Scanner scanner = new Scanner(url.openStream());
+
+                while (scanner.hasNext()) {
+                    informacionString = scanner.nextLine();
+                }
+                scanner.close();
+                System.out.println(informacionString);
+                String[] lista = informacionString.split(",");
+                JSONArray jsonArray = new JSONArray(Arrays.toString(lista));
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                
+                scanner.close();
+                //pintar la informacion obtenida por consola
+                
+                txt_print.setText(jsonObject.getString("name"));
+                txt_print2.setText(jsonObject.getString("symbol"));
+                txt_print3.setText(jsonObject.getString("groupBlock"));
+                txt_print4.setText(jsonObject.getString("electronegativity"));
+                txt_print5.setText(jsonObject.getString("atomicNumber"));
+                txt_print6.setText(jsonObject.getString("atomicMass"));
+                txt_print7.setText(jsonObject.getString("electronicConfiguration"));
+                txt_print8.setText(jsonObject.getString("oxidationStates"));
+
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
