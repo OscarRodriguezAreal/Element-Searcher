@@ -2,7 +2,7 @@
 Proyecto Química
 
  **IMPORTANTE**
-En caso de dar error al ejecutar el programa Descargar este complemento:
+En caso de dar error al ejecutar el programa **Descargar e Instalar** este complemento:
 https://drive.google.com/drive/folders/1ymocealxikhil2tQ53pmfFE07ObLrNmM?usp=sharing
 
 
